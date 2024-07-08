@@ -578,7 +578,7 @@ pub struct FundTransferResponse {
     #[serde(default, deserialize_with = "deserialize_from_opt_str")]
     pub ccy: Option<String>,
     #[serde(default, deserialize_with = "deserialize_from_opt_str")]
-    pub amt: Option<f64>,
+    pub amt: MaybeFloat,
     #[serde(default, deserialize_with = "deserialize_from_opt_str")]
     pub from: Option<AccountType>,
     #[serde(default, deserialize_with = "deserialize_from_opt_str")]
@@ -626,28 +626,28 @@ pub struct Ticker {
 #[serde(rename_all = "camelCase")]
 pub struct Candle {
     /// Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. 1597026383085
-    pub ts: u64,
+    pub ts: MaybeU64,
     /// Open price
     #[serde(rename = "o")]
-    pub open: f64,
+    pub open: MaybeFloat,
     /// highest price
     #[serde(rename = "h")]
-    pub high: f64,
+    pub high: MaybeFloat,
     /// Lowest price
     #[serde(rename = "l")]
-    pub low: f64,
+    pub low: MaybeFloat,
     /// Close price
     #[serde(rename = "c")]
-    pub close: f64,
+    pub close: MaybeFloat,
     /// Close price
     #[serde(rename = "vol")]
-    pub vol: u64,
+    pub vol: MaybeU64,
     /// Close price
     #[serde(rename = "volCcy")]
-    pub vol_ccy: f64,
+    pub vol_ccy: MaybeFloat,
     /// Close price
     #[serde(rename = "volCcyQuote")]
-    pub vol_ccy_quote: f64,
+    pub vol_ccy_quote: MaybeFloat,
     /// The state of candlesticks.
     /// 0 represents that it is uncompleted, 1 represents that it is completed.
     pub confirm: CandleState,

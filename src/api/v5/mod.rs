@@ -4,7 +4,6 @@ use std::{borrow::Cow, fmt::Debug};
 use reqwest::Method;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
-// export - public data
 pub mod funding;
 pub mod market;
 pub mod model;
