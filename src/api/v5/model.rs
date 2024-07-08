@@ -622,7 +622,7 @@ pub struct Ticker {
     pub ts: MaybeI64,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Candle {
     /// Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. 1597026383085
@@ -642,7 +642,7 @@ pub struct Candle {
     pub close: MaybeFloat,
     /// Close price
     #[serde(rename = "vol", default, with = "str_opt")]
-    pub vol: MaybeU64,
+    pub vol: MaybeFloat,
     /// Close price
     #[serde(rename = "volCcy", default, with = "str_opt")]
     pub vol_ccy: MaybeFloat,
@@ -651,5 +651,6 @@ pub struct Candle {
     pub vol_ccy_quote: MaybeFloat,
     /// The state of candlesticks.
     /// 0 represents that it is uncompleted, 1 represents that it is completed.
-    pub confirm: CandleState,
+    #[serde(with = "str_opt")]
+    pub confirm: Option<CandleState>,
 }
