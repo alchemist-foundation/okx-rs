@@ -1,9 +1,7 @@
 use crate::api::v5::model::FundingBalance;
+use crate::api::v5::model::{AccountType, FundTransferResponse, TransferType};
 use crate::api::v5::Request;
-use crate::{
-    api::v5::model::{AccountType, FundTransferResponse, TransferType},
-    serde_util::MaybeFloat,
-};
+use crate::serde_util::MaybeFloat;
 
 use reqwest::Method;
 use serde::{Deserialize, Serialize};

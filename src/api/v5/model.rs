@@ -26,8 +26,9 @@ impl From<&str> for Unknown {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum InstrumentType {
+    #[default]
     Spot,
     Margin,
     Swap,
@@ -582,4 +583,72 @@ pub struct FundTransferResponse {
     pub from: Option<AccountType>,
     #[serde(default, deserialize_with = "deserialize_from_opt_str")]
     pub to: Option<AccountType>,
+}
+
+// ========== Market ==========
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct Ticker {
+    pub inst_type: Option<String>,
+    pub inst_id: Option<String>,
+    #[serde(default, with = "str_opt")]
+    pub last: MaybeFloat,
+    #[serde(default, with = "str_opt")]
+    pub last_sz: MaybeI64,
+    #[serde(default, with = "str_opt")]
+    pub ask_px: MaybeFloat,
+    #[serde(default, with = "str_opt")]
+    pub ask_sz: MaybeI64,
+    #[serde(default, with = "str_opt")]
+    pub bid_px: MaybeFloat,
+    #[serde(default, with = "str_opt")]
+    pub bid_sz: MaybeI64,
+    #[serde(default, with = "str_opt")]
+    pub open_24h: MaybeI64,
+    #[serde(default, with = "str_opt")]
+    pub high_24h: MaybeI64,
+    #[serde(default, with = "str_opt")]
+    pub low_24h: MaybeI64,
+    #[serde(default, with = "str_opt")]
+    pub vol_ccy_24h: MaybeI64,
+    #[serde(default, with = "str_opt")]
+    pub vol_24h: MaybeI64,
+    #[serde(default, with = "str_opt")]
+    pub sod_utc_0: MaybeI64,
+    #[serde(default, with = "str_opt")]
+    pub sod_utc_8: MaybeI64,
+    #[serde(default, with = "str_opt")]
+    pub ts: MaybeI64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Candle {
+    /// Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. 1597026383085
+    pub ts: u64,
+    /// Open price
+    #[serde(rename = "o")]
+    pub open: f64,
+    /// highest price
+    #[serde(rename = "h")]
+    pub high: f64,
+    /// Lowest price
+    #[serde(rename = "l")]
+    pub low: f64,
+    /// Close price
+    #[serde(rename = "c")]
+    pub close: f64,
+    /// Close price
+    #[serde(rename = "vol")]
+    pub vol: u64,
+    /// Close price
+    #[serde(rename = "volCcy")]
+    pub vol_ccy: f64,
+    /// Close price
+    #[serde(rename = "volCcyQuote")]
+    pub vol_ccy_quote: f64,
+    /// The state of candlesticks.
+    /// 0 represents that it is uncompleted, 1 represents that it is completed.
+    pub confirm: CandleState,
 }

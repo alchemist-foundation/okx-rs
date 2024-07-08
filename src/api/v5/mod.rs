@@ -6,6 +6,7 @@ use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
 // export - public data
 pub mod funding;
+pub mod market;
 pub mod model;
 pub mod public_data;
 pub mod trading;
