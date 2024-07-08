@@ -17,7 +17,7 @@ pub mod rest {
     /// Rate limit rule: IP
     ///
     /// ### HTTP Request
-    /// [GET] /api/v5/public/time
+    /// **GET** /api/v5/public/time
     #[derive(Debug, Clone, Serialize, Deserialize)]
     #[serde(rename_all = "camelCase")]
     pub struct GetSystemTime;
@@ -37,7 +37,7 @@ pub mod rest {
     /// Rate limit rule: IP + instrumentType
     ///
     /// ### HTTP Request
-    /// [GET] /api/v5/public/instruments
+    /// **GET** /api/v5/public/instruments
     #[derive(Debug, Clone, Serialize)]
     #[serde(rename_all = "camelCase")]
     pub struct GetInstruments {

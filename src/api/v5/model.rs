@@ -296,6 +296,47 @@ impl_string_enum!(SubAccountBillType,
     SubAccountToMaster => "1",
 );
 
+#[derive(Debug, Clone, Eq, PartialEq)]
+pub enum AccountType {
+    Funding,
+    Trading,
+}
+
+impl_string_enum!(AccountType,
+    Funding => "6",
+    Trading => "18",
+);
+
+/// Transfer type
+/// 0: transfer within account
+/// 1: master account to sub-account (Only applicable to API Key from master account)
+/// 2: sub-account to master account (Only applicable to API Key from master account)
+/// 3: sub-account to master account (Only applicable to APIKey from sub-account)
+/// 4: sub-account to sub-account (Only applicable to APIKey from sub-account, and target account needs to be another sub-account which belongs to same master account. Sub-account directly transfer out permission is disabled by default, set permission please refer to Set permission of transfer out)
+/// The default is 0.
+/// If you want to make transfer between sub-accounts by master account API key, refer to Master accounts manage the transfers between sub-accounts
+#[derive(Debug, Clone)]
+pub enum TransferType {
+    /// 0: transfer within account
+    WithinAccount,
+    /// 1: master account to sub-account (Only applicable to API Key from master account)
+    MasterToSubAccount,
+    /// 2: sub-account to master account (Only applicable to API Key from master account)
+    SubAccountToMaster,
+    /// 3: sub-account to master account (Only applicable to APIKey from sub-account)
+    SubAccountToMasterSA,
+    /// 4: sub-account to sub-account (Only applicable to APIKey from sub-account, and target account needs to be another sub-account which belongs to same master account. Sub-account directly transfer out permission is disabled by default, set permission please refer to Set permission of transfer out)
+    SubAccountToSubAccount,
+}
+
+impl_string_enum!(TransferType,
+    WithinAccount => "0",
+    MasterToSubAccount => "1",
+    SubAccountToMaster => "2",
+    SubAccountToMasterSA => "3",
+    SubAccountToSubAccount => "4",
+);
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct OKXSystemTime {
@@ -508,6 +549,8 @@ pub struct TradingBalance {
     pub iso_upl: MaybeFloat,
 }
 
+// ========== Funding ==========
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct FundingBalance {
@@ -523,4 +566,20 @@ pub struct FundingBalance {
     pub frozen_bal: MaybeFloat,
     /// Currency
     pub ccy: String,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct FundTransferResponse {
+    pub trans_id: String,
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub client_id: Option<String>,
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub ccy: Option<String>,
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub amt: Option<f64>,
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub from: Option<AccountType>,
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub to: Option<AccountType>,
 }

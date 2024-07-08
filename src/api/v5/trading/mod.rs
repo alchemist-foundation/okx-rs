@@ -1,4 +1,3 @@
-
 use crate::api::v5::model::TradingBalanceDetail;
 use crate::api::v5::Request;
 
@@ -16,8 +15,8 @@ pub mod rest {
     ///  Interest-free quota and discount rates are public data and not displayed on the account interface.
     /// Rate Limit: 10 requests per 2 seconds
     /// Rate limit rule: UserID
-    /// ## HTTP Requests
-    /// GET /api/v5/account/balance
+    /// ### HTTP Requests
+    /// **GET** /api/v5/account/balance
     #[derive(Debug, Serialize, Deserialize, Clone, Default)]
     #[serde(rename_all = "camelCase")]
     pub struct GetTradingBalances {
