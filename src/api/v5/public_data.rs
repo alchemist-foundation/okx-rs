@@ -1,11 +1,11 @@
 use reqwest::Method;
 use serde::{Deserialize, Serialize};
 
-use crate::api::v5::{model::OKXSystemTime, Request};
+use crate::api::v5::Request;
 
 pub mod rest {
 
-    use crate::api::v5::model::InstrumentType;
+    use crate::api::v5::model::{Instrument, InstrumentType, OKXSystemTime};
 
     use super::*;
 
@@ -52,5 +52,12 @@ pub mod rest {
 
         #[serde(skip_serializing_if = "Option::is_none")]
         pub inst_id: Option<String>,
+    }
+
+    impl Request for GetInstruments {
+        const METHOD: Method = Method::GET;
+        const PATH: &'static str = "/public/instruments";
+        const AUTH: bool = false;
+        type Response = Vec<Instrument>;
     }
 }
