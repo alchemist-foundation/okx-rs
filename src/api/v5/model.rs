@@ -626,6 +626,7 @@ pub struct Ticker {
 #[serde(rename_all = "camelCase")]
 pub struct Candle {
     /// Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. 1597026383085
+    #[serde(default, with = "str_opt")]
     pub ts: MaybeU64,
     /// Open price
     #[serde(rename = "o", default, with = "str_opt")]
