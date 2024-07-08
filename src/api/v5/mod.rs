@@ -5,8 +5,10 @@ use reqwest::Method;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 
 // export - public data
+pub mod funding;
 pub mod model;
 pub mod public_data;
+pub mod trading;
 
 pub trait Request: Serialize {
     const METHOD: Method;

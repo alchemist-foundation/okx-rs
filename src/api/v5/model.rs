@@ -359,3 +359,168 @@ pub struct Instrument {
     #[serde(rename = "maxStopSz", default, with = "str_opt")]
     pub max_stop_size: MaybeFloat, // The maximum order quantity of the contract or spot stop order
 }
+
+// ========== Trading ==========
+#[derive(Debug, Deserialize, Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct TradingBalanceDetail {
+    /// Update time of account information, millisecond format of Unix timestamp, e.g. 1597026383085
+    #[serde(deserialize_with = "deserialize_from_opt_str")]
+    pub u_time: Option<u64>,
+    /// The total amount of equity in USD
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub total_eq: MaybeFloat,
+    /// Isolated margin equity in USD
+    // Applicable to Single-currency margin and Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub iso_eq: MaybeFloat,
+    /// Adjusted / Effective equity in USD
+    /// The net fiat value of the assets in the account that can provide margins for spot, futures, perpetual swap and options under the cross margin mode.
+    /// Cause in multi-ccy or PM mode, the asset and margin requirement will all be converted to USD value to process the order check or liquidation.
+    /// Due to the volatility of each currency market, our platform calculates the actual USD value of each currency based on discount rates to balance market risks.
+    /// Applicable to Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub adj_eq: MaybeFloat,
+    /// Cross margin frozen for pending orders in USD
+    /// Only applicable to Multi-currency margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub ord_froz: MaybeFloat,
+    /// Initial margin requirement in USD
+    /// The sum of initial margins of all open positions and pending orders under cross margin mode in USD.
+    /// Applicable to Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub imr: MaybeFloat,
+    /// Maintenance margin requirement in USD
+    /// The sum of maintenance margins of all open positions under cross margin mode in USD.
+    /// Applicable to Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub mmr: MaybeFloat,
+    /// Potential borrowing IMR of the account in USD
+    /// Only applicable to Multi-currency margin and Portfolio margin. It is "" for other margin modes.
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub borrow_froz: MaybeFloat,
+    /// Margin ratio in USD
+    /// The index for measuring the risk of a certain asset in the account.
+    /// Applicable to Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub mgn_ratio: MaybeFloat,
+    /// Notional value of positions in USD
+    /// Applicable to Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub notional_usd: MaybeFloat,
+    /// Detailed asset information in all currencies
+    pub details: Vec<TradingBalance>,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct TradingBalance {
+    /// Cash Balance
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub cash_bal: MaybeFloat,
+    /// Equity of the currency
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub eq: MaybeFloat,
+    /// Currency
+    pub ccy: String,
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub u_time: Option<u64>,
+    /// Isolated margin equity of the currency
+    /// Applicable to Single-currency margin and Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub iso_eq: MaybeFloat,
+    /// Available equity of the currency
+    /// The balance that can be used on margin or futures/swap trading.
+    /// Applicable to Single-currency margin, Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub avail_eq: MaybeFloat,
+    /// Discount equity of the currency in USD.
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub dis_eq: MaybeFloat,
+    /// Frozen balance
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub fixed_bal: MaybeFloat,
+    /// Available balance of the currency
+    /// The balance that can be withdrawn or transferred or used on spot trading.
+    /// Applicable to Simple, Single-currency margin, Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub avail_bal: MaybeFloat,
+    /// Frozen balance of the currency
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub frozen_bal: MaybeFloat,
+    /// Margin frozen for open orders
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub ord_frozen: MaybeFloat,
+    /// Liabilities of the currency
+    /// It is a positive value, e.g."21625.64". Applicable to Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub liab: MaybeFloat,
+    /// The sum of the unrealized profit & loss of all margin and derivatives positions of the currency.
+    /// Applicable to Single-currency margin, Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub upl: MaybeFloat,
+    /// Liabilities due to Unrealized loss of the currency
+    /// Applicable to Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub upl_liab: MaybeFloat,
+    /// Cross liabilities of the currency
+    /// Applicable to Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub cross_liab: MaybeFloat,
+    /// Isolated liabilities of the currency
+    /// Applicable to Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub iso_liab: MaybeFloat,
+    /// Isolated liabilities of the currency
+    /// Applicable to Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub mgn_ratio: MaybeFloat,
+    /// Accrued interest of the currency
+    /// It is a positive value, e.g."9.01". Applicable to Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub interest: MaybeFloat,
+    /// Risk indicator of auto liability repayment
+    /// Divided into multiple levels from 0 to 5, the larger the number, the more likely the auto repayment will be triggered.
+    /// Applicable to Multi-currency margin and Portfolio margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub twap: MaybeFloat,
+    /// Max loan of the currency
+    /// Applicable to cross of Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub max_loan: MaybeFloat,
+    /// Equity in USD of the currency
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub eq_usd: MaybeFloat,
+    /// Potential borrowing IMR of the currency in USD
+    /// Only applicable to Multi-currency margin and Portfolio margin. It is "" for other margin modes.
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub borrow_froz: MaybeFloat,
+    /// Leverage of the currency
+    /// Applicable to Single-currency margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub notional_level: MaybeFloat,
+    /// Strategy equity
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub stgy_eq: MaybeFloat,
+    /// Isolated unrealized profit and loss of the currency
+    /// Applicable to Single-currency margin and Multi-currency margin and Portfolio margin
+    #[serde(default, deserialize_with = "deserialize_from_opt_str")]
+    pub iso_upl: MaybeFloat,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct FundingBalance {
+    /// Available balance
+    /// The balance that can be withdrawn or transferred or used for spot trading
+    #[serde(default, with = "str_opt")]
+    pub avail_bal: MaybeFloat,
+    /// Balance
+    #[serde(default, with = "str_opt")]
+    pub bal: MaybeFloat,
+    /// Frozen balance
+    #[serde(default, with = "str_opt")]
+    pub frozen_bal: MaybeFloat,
+    /// Currency
+    pub ccy: String,
+}
