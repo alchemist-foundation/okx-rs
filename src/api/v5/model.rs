@@ -628,25 +628,25 @@ pub struct Candle {
     /// Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. 1597026383085
     pub ts: MaybeU64,
     /// Open price
-    #[serde(rename = "o")]
+    #[serde(rename = "o", default, with = "str_opt")]
     pub open: MaybeFloat,
     /// highest price
-    #[serde(rename = "h")]
+    #[serde(rename = "h", default, with = "str_opt")]
     pub high: MaybeFloat,
     /// Lowest price
-    #[serde(rename = "l")]
+    #[serde(rename = "l", default, with = "str_opt")]
     pub low: MaybeFloat,
     /// Close price
-    #[serde(rename = "c")]
+    #[serde(rename = "c", default, with = "str_opt")]
     pub close: MaybeFloat,
     /// Close price
-    #[serde(rename = "vol")]
+    #[serde(rename = "vol", default, with = "str_opt")]
     pub vol: MaybeU64,
     /// Close price
-    #[serde(rename = "volCcy")]
+    #[serde(rename = "volCcy", default, with = "str_opt")]
     pub vol_ccy: MaybeFloat,
     /// Close price
-    #[serde(rename = "volCcyQuote")]
+    #[serde(rename = "volCcyQuote", default, with = "str_opt")]
     pub vol_ccy_quote: MaybeFloat,
     /// The state of candlesticks.
     /// 0 represents that it is uncompleted, 1 represents that it is completed.
