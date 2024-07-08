@@ -1,4 +1,4 @@
-use super::{error::ApiError, Options};
+use super::Options;
 use anyhow::{bail, ensure, Ok};
 use base64::{prelude::BASE64_STANDARD, Engine};
 use hmac::{Hmac, Mac};
@@ -52,6 +52,7 @@ impl Credential {
         (self.api_key.as_str(), signed)
     }
 
+    #[warn(dead_code)]
     pub(crate) fn signature_websocket(
         &self,
         method: Method,

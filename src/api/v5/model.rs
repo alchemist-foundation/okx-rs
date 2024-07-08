@@ -640,15 +640,59 @@ pub struct Candle {
     /// Close price
     #[serde(rename = "c", default, with = "str_opt")]
     pub close: MaybeFloat,
-    /// Close price
+    /// Trading volume, with a unit of contract.
+    /// If it is a derivatives contract, the value is the number of contracts.
+    /// If it is SPOT/MARGIN, the value is the quantity in base currency.
     #[serde(rename = "vol", default, with = "str_opt")]
     pub vol: MaybeFloat,
-    /// Close price
+    /// Trading volume, with a unit of currency.
+    /// If it is a derivatives contract, the value is the number of base currency.
+    /// If it is SPOT/MARGIN, the value is the quantity in quote currency.
     #[serde(rename = "volCcy", default, with = "str_opt")]
     pub vol_ccy: MaybeFloat,
-    /// Close price
+    /// Trading volume, the value is the quantity in quote currency
+    /// e.g. The unit is USDT for BTC-USDT and BTC-USDT-SWAP;
+    /// The unit is USD for BTC-USD-SWAP
     #[serde(rename = "volCcyQuote", default, with = "str_opt")]
     pub vol_ccy_quote: MaybeFloat,
+    /// The state of candlesticks.
+    /// 0 represents that it is uncompleted, 1 represents that it is completed.
+    #[serde(with = "str_opt")]
+    pub confirm: Option<CandleState>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Platform24Volume {
+    /// Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. 1597026383085
+    #[serde(default, with = "str_opt")]
+    pub ts: MaybeU64,
+    /// Open price
+    #[serde(rename = "volCny", default, with = "str_opt")]
+    pub vol_cny: MaybeU64,
+    /// highest price
+    #[serde(rename = "volUsd", default, with = "str_opt")]
+    pub vol_usd: MaybeU64,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CandleOHLC {
+    /// Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. 1597026383085
+    #[serde(default, with = "str_opt")]
+    pub ts: MaybeU64,
+    /// Open price
+    #[serde(rename = "o", default, with = "str_opt")]
+    pub open: MaybeFloat,
+    /// highest price
+    #[serde(rename = "h", default, with = "str_opt")]
+    pub high: MaybeFloat,
+    /// Lowest price
+    #[serde(rename = "l", default, with = "str_opt")]
+    pub low: MaybeFloat,
+    /// Close price
+    #[serde(rename = "c", default, with = "str_opt")]
+    pub close: MaybeFloat,
     /// The state of candlesticks.
     /// 0 represents that it is uncompleted, 1 represents that it is completed.
     #[serde(with = "str_opt")]
