@@ -13,7 +13,7 @@ pub mod rest {
     /// ## Get System Time
     /// Retrieve API server time.
     ///
-    /// Rate Limit: 10 requests per 2 seconds <br/>
+    /// Rate Limit: 10 requests per 2 seconds \
     /// Rate limit rule: IP
     ///
     /// ### HTTP Request
@@ -33,7 +33,7 @@ pub mod rest {
     /// ## Get instruments
     /// Retrieve a list of instruments with open contracts.
     ///
-    /// Rate Limit: 20 requests per 2 seconds <br/>
+    /// Rate Limit: 20 requests per 2 seconds \
     /// Rate limit rule: IP + instrumentType
     ///
     /// ### HTTP Request

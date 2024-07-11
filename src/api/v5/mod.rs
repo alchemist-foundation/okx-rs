@@ -7,6 +7,7 @@ use serde::{de::DeserializeOwned, Deserialize, Serialize};
 pub mod funding;
 pub mod market;
 pub mod model;
+pub mod order_book;
 pub mod public_data;
 pub mod trading;
 

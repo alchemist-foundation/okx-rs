@@ -132,6 +132,7 @@ pub enum OrderState {
     Live,
     PartiallyFilled,
     Filled,
+    MMPCanceled,
     Other(Unknown),
 }
 
@@ -141,6 +142,7 @@ impl_string_enum!(OrderState,
     Live => "live",
     PartiallyFilled => "partially_filled",
     Filled => "filled",
+    MMPCanceled => "mmp_canceled",
 );
 
 #[derive(Debug, Clone, Copy, Hash)]
@@ -306,6 +308,16 @@ pub enum AccountType {
 impl_string_enum!(AccountType,
     Funding => "6",
     Trading => "18",
+);
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ExecType {
+    Taker,
+    Maker,
+}
+impl_string_enum!(ExecType,
+    Taker => "T",
+    Maker => "M",
 );
 
 /// Transfer type
@@ -595,31 +607,31 @@ pub struct Ticker {
     #[serde(default, with = "str_opt")]
     pub last: MaybeFloat,
     #[serde(default, with = "str_opt")]
-    pub last_sz: MaybeI64,
+    pub last_sz: MaybeFloat,
     #[serde(default, with = "str_opt")]
     pub ask_px: MaybeFloat,
     #[serde(default, with = "str_opt")]
-    pub ask_sz: MaybeI64,
+    pub ask_sz: MaybeFloat,
     #[serde(default, with = "str_opt")]
     pub bid_px: MaybeFloat,
     #[serde(default, with = "str_opt")]
-    pub bid_sz: MaybeI64,
+    pub bid_sz: MaybeFloat,
     #[serde(default, with = "str_opt")]
-    pub open_24h: MaybeI64,
+    pub open_24h: MaybeFloat,
     #[serde(default, with = "str_opt")]
-    pub high_24h: MaybeI64,
+    pub high_24h: MaybeFloat,
     #[serde(default, with = "str_opt")]
-    pub low_24h: MaybeI64,
+    pub low_24h: MaybeFloat,
     #[serde(default, with = "str_opt")]
-    pub vol_ccy_24h: MaybeI64,
+    pub vol_ccy_24h: MaybeFloat,
     #[serde(default, with = "str_opt")]
-    pub vol_24h: MaybeI64,
+    pub vol_24h: MaybeFloat,
     #[serde(default, with = "str_opt")]
-    pub sod_utc_0: MaybeI64,
+    pub sod_utc_0: MaybeFloat,
     #[serde(default, with = "str_opt")]
-    pub sod_utc_8: MaybeI64,
+    pub sod_utc_8: MaybeFloat,
     #[serde(default, with = "str_opt")]
-    pub ts: MaybeI64,
+    pub ts: MaybeU64,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]

@@ -11,7 +11,7 @@ use super::*;
 /// ## Get Ticker
 /// Retrieve the latest price snapshot, best bid/ask price, and trading volume in the last 24 hours.
 ///
-/// Rate Limit: 20 requests per 2 second <br/>
+/// Rate Limit: 20 requests per 2 second \
 /// Rate limit rule: IP
 ///
 /// ### HTTP Request
@@ -38,7 +38,7 @@ impl Request for GetTickers {
 /// ## Get Ticker
 /// Retrieve the latest price snapshot, best bid/ask price, and trading volume in the last 24 hours.
 ///
-/// Rate Limit: 20 requests per 2 second <br/>
+/// Rate Limit: 20 requests per 2 second \
 /// Rate limit rule: IP
 ///
 /// ### HTTP Request
@@ -62,7 +62,7 @@ impl Request for GetTicker {
 /// ## Get Candlesticks
 /// Retrieve the candlestick charts. This endpoint can retrieve the latest 1,440 data entries. Charts are returned in groups based on the requested bar.
 ///
-/// Rate Limit: 20 requests per 2 second <br/>
+/// Rate Limit: 20 requests per 2 second \
 /// Rate limit rule: IP
 ///
 /// ### HTTP Request
@@ -101,7 +101,7 @@ impl Request for GetCandlesticks {
 /// ## Get History Candlesticks
 /// Retrieve history candlestick charts from recent years(It is last 3 months supported for 1s candlestick).
 ///
-/// Rate Limit: 20 requests per 2 second <br/>
+/// Rate Limit: 20 requests per 2 second \
 /// Rate limit rule: IP
 ///
 /// ### HTTP Request
@@ -140,7 +140,7 @@ impl Request for GetHistoryCandlesticks {
 /// ## Get Platform 24 hours volume
 /// The 24-hour trading volume is calculated on a rolling basis.
 ///
-/// Rate Limit: 20 requests per 2 second <br/>
+/// Rate Limit: 20 requests per 2 second \
 /// Rate limit rule: IP
 ///
 /// ### HTTP Request
